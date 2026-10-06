@@ -87,7 +87,7 @@ Both platforms use the **same 22 tables and 38,000 documents**, and both answer 
 3. Click **+** next to the search icon, then select **Create new » Private workspace**, and name it `<first initial><surname>-techuphol`.
 4. In the new workspace, click **+ Add new » SQL File** and name it `setup.sql`.
 
-<p align="center"><img src="images/sf_01_create_private_workspace.png" alt="Create a private workspace" height="160"></p>
+<p align="center"><img src="images/sf_01_create_private_workspace.png" alt="Create a private workspace" height="224"></p>
 
 #### Step 2: Create your personal database
 
@@ -140,7 +140,7 @@ SELECT SNOWFLAKE.CORTEX.SEARCH_PREVIEW(
 
 Your workspace should now look like the screenshot below. Check that the context bar at the top right shows **SYSADMIN**, **COMPUTE_WH** and your database.
 
-<p align="center"><img src="images/sf_02_workspace_setup_sql.png" alt="Workspace with setup.sql" height="220"></p>
+<p align="center"><img src="images/sf_02_workspace_setup_sql.png" alt="Workspace with setup.sql" height="308"></p>
 
 ---
 
@@ -155,9 +155,9 @@ You'll build `RIDES_SEMANTIC_VIEW` with the **Guided wizard** in your private wo
 3. On **Provide context**, you don't need SQL queries or Tableau, Power BI or Ossie files. Click **Skip**.
 
 <p align="center">
-  <img src="images/sf_03_add_new_semantic_view.png" alt="Add new semantic view" height="150">
-  <img src="images/sf_04_guided_wizard.png" alt="Guided wizard" height="150">
-  <img src="images/sf_05_skip_provide_context.png" alt="Skip Provide context" height="150">
+  <img src="images/sf_03_add_new_semantic_view.png" alt="Add new semantic view" height="158">
+  <img src="images/sf_04_guided_wizard.png" alt="Guided wizard" height="158">
+  <img src="images/sf_05_skip_provide_context.png" alt="Skip Provide context" height="158">
 </p>
 
 #### Step 2: Select the tables
@@ -167,8 +167,8 @@ You'll build `RIDES_SEMANTIC_VIEW` with the **Guided wizard** in your private wo
 3. Check that the **Selected** counter shows **12**, then click **Next**.
 
 <p align="center">
-  <img src="images/sf_06_select_rides_tables.png" alt="Select Rides tables" height="190">
-  <img src="images/sf_07_select_shared_tables.png" alt="Select Shared tables" height="190">
+  <img src="images/sf_06_select_rides_tables.png" alt="Select Rides tables" height="240">
+  <img src="images/sf_07_select_shared_tables.png" alt="Select Shared tables" height="240">
 </p>
 
 > [!NOTE]
@@ -183,16 +183,16 @@ You'll build `RIDES_SEMANTIC_VIEW` with the **Guided wizard** in your private wo
 5. Click **Publish**.
 
 <p align="center">
-  <img src="images/sf_08_select_columns.png" alt="Select columns and AI enrichment" height="150">
-  <img src="images/sf_09_name_semantic_view.png" alt="Name the semantic view" height="150">
-  <img src="images/sf_10_select_database_schema.png" alt="Select database and schema" height="150">
+  <img src="images/sf_08_select_columns.png" alt="Select columns and AI enrichment" height="171">
+  <img src="images/sf_09_name_semantic_view.png" alt="Name the semantic view" height="171">
+  <img src="images/sf_10_select_database_schema.png" alt="Select database and schema" height="171">
 </p>
 
 #### Step 4: Wait for generation, then add a description
 
 Autopilot now builds the semantic view: logical tables, descriptions, sample values and relationships. This usually takes **1–2 minutes**, although the screen says up to 10. **Don't close the window.** Suggestions appear in the **Suggestions** panel on the right as they become available.
 
-<p align="center"><img src="images/sf_11_generating_semantic_view.png" alt="Generating semantic view" height="120"></p>
+<p align="center"><img src="images/sf_11_generating_semantic_view.png" alt="Generating semantic view" height="168"></p>
 
 When generation finishes, set the semantic view's description at the top of the **Visual** editor to:
 
@@ -214,8 +214,8 @@ In the **Suggestions** panel, work through each category (Metrics, Dimensions, F
 For example: **Metrics** `dim_city · distinct_country_count` » **Review** » **Keep** (left), and **Relationships** `DIM_CITY_TO_DIM_COUNTRY` (many-to-one on `COUNTRY_CD`) » **Review** » **✓** (right). Accept all relationships, including `DIM_DRIVER_TO_DIM_CITY`, `DIM_RIDER_TO_DIM_CITY` and the fact-to-dimension joins.
 
 <p align="center">
-  <img src="images/sf_12_accept_metric_suggestions.png" alt="Accept metric suggestions" height="190">
-  <img src="images/sf_13_accept_relationship_suggestions.png" alt="Accept relationship suggestions" height="190">
+  <img src="images/sf_12_accept_metric_suggestions.png" alt="Accept metric suggestions" height="259">
+  <img src="images/sf_13_accept_relationship_suggestions.png" alt="Accept relationship suggestions" height="259">
 </p>
 
 Before you publish, check that the status bar at the bottom shows **Errors (0)** and **Valid semantic view**. Skip **Verified queries** for now.
@@ -226,8 +226,8 @@ Before you publish, check that the status bar at the bottom shows **Errors (0)**
 2. In **Review publish changes**, confirm that the target is `"<first initial><surname>-techup-db".PUBLIC` and review the changes. Click **Publish**. The *Overwrite warning* is expected: it replaces the version created in Step 3 with your enriched version.
 
 <p align="center">
-  <img src="images/sf_14_publish_changes.png" alt="Publish changes" height="190">
-  <img src="images/sf_15_review_publish_changes.png" alt="Review publish changes" height="190">
+  <img src="images/sf_14_publish_changes.png" alt="Publish changes" height="266">
+  <img src="images/sf_15_review_publish_changes.png" alt="Review publish changes" height="266">
 </p>
 
 3. Run the following in `setup.sql`. `RIDES_SEMANTIC_VIEW` should be listed.
@@ -305,9 +305,9 @@ Next you'll build a single agent that answers questions using both semantic view
 4. Click **Create agent**.
 
 <p align="center">
-  <img src="images/sf_16_open_agent_studio.png" alt="Open Agent Studio" height="170">
-  <img src="images/sf_17_select_agent_db_schema.png" alt="Select database and schema" height="170">
-  <img src="images/sf_18_create_agent_name.png" alt="Set the agent name" height="170">
+  <img src="images/sf_16_open_agent_studio.png" alt="Open Agent Studio" height="189">
+  <img src="images/sf_17_select_agent_db_schema.png" alt="Select database and schema" height="189">
+  <img src="images/sf_18_create_agent_name.png" alt="Set the agent name" height="189">
 </p>
 
 > [!NOTE]
@@ -338,9 +338,9 @@ Next you'll build a single agent that answers questions using both semantic view
 3. Select **Tools** and switch the **Code Execution tool** toggle **on**. Leave **Artifact repository** empty.
 
 <p align="center">
-  <img src="images/sf_19_agent_general_description.png" alt="General description" height="150">
-  <img src="images/sf_20_agent_instructions.png" alt="Orchestration instructions" height="150">
-  <img src="images/sf_21_agent_code_execution_tool.png" alt="Code Execution tool" height="150">
+  <img src="images/sf_19_agent_general_description.png" alt="General description" height="147">
+  <img src="images/sf_20_agent_instructions.png" alt="Orchestration instructions" height="147">
+  <img src="images/sf_21_agent_code_execution_tool.png" alt="Code Execution tool" height="147">
 </p>
 
 #### Step 3: Add the two semantic view tools
@@ -359,9 +359,9 @@ Next you'll build a single agent that answers questions using both semantic view
 | **Query timeout** | Leave blank | Leave blank |
 
 <p align="center">
-  <img src="images/sf_22_add_semantic_view_tool.png" alt="Add semantic view tool" height="150">
-  <img src="images/sf_23_select_semantic_view.png" alt="Select semantic view" height="150">
-  <img src="images/sf_24_generate_tool_description.png" alt="Generate tool description" height="150">
+  <img src="images/sf_22_add_semantic_view_tool.png" alt="Add semantic view tool" height="183">
+  <img src="images/sf_23_select_semantic_view.png" alt="Select semantic view" height="183">
+  <img src="images/sf_24_generate_tool_description.png" alt="Generate tool description" height="183">
 </p>
 
 > [!IMPORTANT]
@@ -386,9 +386,9 @@ Next you'll build a single agent that answers questions using both semantic view
 | `GOASIA.SEARCH_SERVICES.ALL_DOC_SEARCH` | `ALL_DOC_SEARCH` | `Search across all GoAsia operational documents spanning both rides and logistics domains — use when the question covers both domains or when the domain is unclear` |
 
 <p align="center">
-  <img src="images/sf_25_add_search_service.png" alt="Add search service" height="150">
-  <img src="images/sf_26_select_search_services_schema.png" alt="Select SEARCH_SERVICES schema" height="150">
-  <img src="images/sf_27_configure_search_tool.png" alt="Configure search tool" height="150">
+  <img src="images/sf_25_add_search_service.png" alt="Add search service" height="171">
+  <img src="images/sf_26_select_search_services_schema.png" alt="Select SEARCH_SERVICES schema" height="171">
+  <img src="images/sf_27_configure_search_tool.png" alt="Configure search tool" height="171">
 </p>
 
 #### Step 5: Save and publish the agent
@@ -397,8 +397,8 @@ Next you'll build a single agent that answers questions using both semantic view
 2. Click **Publish**. In the dialog, leave **Use this version** selected, then click **Publish**.
 
 <p align="center">
-  <img src="images/sf_28_save_agent.png" alt="Save the agent" height="170">
-  <img src="images/sf_29_publish_agent.png" alt="Publish the agent" height="170">
+  <img src="images/sf_28_save_agent.png" alt="Save the agent" height="237">
+  <img src="images/sf_29_publish_agent.png" alt="Publish the agent" height="237">
 </p>
 
 ---
@@ -409,16 +409,16 @@ Next you'll build a single agent that answers questions using both semantic view
 2. Click **Add existing agent**, select `<first initial><surname>_goasia_agent` and add it. Confirm that the agent appears in the list.
 
 <p align="center">
-  <img src="images/sf_30_cowork_review_agents.png" alt="CoWork Review agents" height="140">
-  <img src="images/sf_31_cowork_add_existing_agent.png" alt="Add existing agent" height="140">
+  <img src="images/sf_30_cowork_review_agents.png" alt="CoWork Review agents" height="150">
+  <img src="images/sf_31_cowork_add_existing_agent.png" alt="Add existing agent" height="150">
 </p>
 
 3. In the left navigation, go to **AI & ML » Snowflake CoWork**. CoWork opens in a new tab.
 4. In the chat box, open the agent picker and select `<first initial><surname>_goasia_agent`.
 
 <p align="center">
-  <img src="images/sf_32_open_snowflake_cowork.png" alt="Open Snowflake CoWork" height="170">
-  <img src="images/sf_33_cowork_select_agent.png" alt="Select the agent in CoWork" height="170">
+  <img src="images/sf_32_open_snowflake_cowork.png" alt="Open Snowflake CoWork" height="237">
+  <img src="images/sf_33_cowork_select_agent.png" alt="Select the agent in CoWork" height="237">
 </p>
 
 > [!IMPORTANT]
@@ -458,9 +458,9 @@ The same GoAsia data is loaded into Unity Catalog.
 4. Open the compute drop-down at the top right of the notebook and select **Serverless**.
 
 <p align="center">
-  <img src="images/dbx_01_new_notebook.png" alt="New notebook" height="200">
-  <img src="images/dbx_02_notebook_serverless.png" alt="Serverless compute" width="520">
+  <img src="images/dbx_01_new_notebook.png" alt="New notebook" height="280">
 </p>
+<p align="center"><img src="images/dbx_02_notebook_serverless.png" alt="Serverless compute" width="760"></p>
 
 #### Step 2: Verify access
 
@@ -516,7 +516,7 @@ USE SCHEMA `<first initial><surname>-schema`;
 SELECT current_user(), current_catalog(), current_schema();
 ```
 
-<p align="center"><img src="images/dbx_03_create_own_schema.png" alt="Create your schema" height="200"></p>
+<p align="center"><img src="images/dbx_03_create_own_schema.png" alt="Create your schema" height="280"></p>
 
 > [!NOTE]
 > Your own schema is now the default. Refer to shared tables by their full name, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.
@@ -562,16 +562,16 @@ Genie Code is the Databricks AI assistant. You'll ask it to build both metric vi
    - `dim_zone` → `dim_city` → `dim_country`
 
 <p align="center">
-  <img src="images/dbx_04_open_genie_code.png" alt="Open Genie Code" height="240">
-  <img src="images/dbx_05_genie_code_prompt.png" alt="Rides prompt" height="240">
-  <img src="images/dbx_06_genie_code_running.png" alt="Genie Code running" height="240">
+  <img src="images/dbx_04_open_genie_code.png" alt="Open Genie Code" height="336">
+  <img src="images/dbx_05_genie_code_prompt.png" alt="Rides prompt" height="336">
+  <img src="images/dbx_06_genie_code_running.png" alt="Genie Code running" height="336">
 </p>
 
 4. A new cell, **Create rides_metric_view**, is added to your notebook and runs automatically. Wait for the green tick. Genie Code usually adds a validation cell that queries the view with `MEASURE()`. It should return trip counts, completion rates and fares by country and city.
 
 <p align="center">
-  <img src="images/dbx_07_rides_metric_view_cell.png" alt="rides_metric_view cell" height="200">
-  <img src="images/dbx_08_validate_metric_view.png" alt="Validate rides_metric_view" height="200">
+  <img src="images/dbx_07_rides_metric_view_cell.png" alt="rides_metric_view cell" height="280">
+  <img src="images/dbx_08_validate_metric_view.png" alt="Validate rides_metric_view" height="280">
 </p>
 
 > [!TIP]
@@ -604,8 +604,8 @@ You'll create two Genie agents, one for Rides and one for Logistics. Each uses t
 1. In the left sidebar, under **SQL**, click **Genie Agents**, then click **+ New** (top right).
 
 <p align="center">
-  <img src="images/dbx_09_open_genie_agents.png" alt="Open Genie Agents" height="200">
-  <img src="images/dbx_10_genie_agents_new.png" alt="Genie Agents list with the New button" height="200">
+  <img src="images/dbx_09_open_genie_agents.png" alt="Open Genie Agents" height="280">
+  <img src="images/dbx_10_genie_agents_new.png" alt="Genie Agents list with the New button" height="280">
 </p>
 
 2. In **Connect your data**, search for and select the 13 Rides objects listed above. The 12 tables come from the **shared** schema `apjtechup26`.`techup-hol`. The metric view comes from **your** schema.
@@ -618,9 +618,9 @@ You'll create two Genie agents, one for Rides and one for Logistics. Each uses t
    > **Important:** The workspace is shared. Your prefix keeps your agent distinct from other participants' agents.
 
 <p align="center">
-  <img src="images/dbx_11_connect_your_data.png" alt="Connect your data with tables selected" height="200">
-  <img src="images/dbx_12_genie_space_created.png" alt="New Genie agent created" height="200">
-  <img src="images/dbx_15_edit_about_agent_name.png" alt="About this agent with the edit icon" height="200">
+  <img src="images/dbx_11_connect_your_data.png" alt="Connect your data with tables selected" height="205">
+  <img src="images/dbx_12_genie_space_created.png" alt="New Genie agent created" height="205">
+  <img src="images/dbx_15_edit_about_agent_name.png" alt="About this agent with the edit icon" height="205">
 </p>
 
 5. On the **About** tab, accept the description that Genie generated.
@@ -643,8 +643,8 @@ You'll create two Genie agents, one for Rides and one for Logistics. Each uses t
 7. Keep all other defaults. Don't add custom synonyms or SQL examples.
 
 <p align="center">
-  <img src="images/dbx_13_genie_about_description.png" alt="Genie-generated description on the About tab" height="200">
-  <img src="images/dbx_14_genie_generate_instructions.png" alt="Generate instructions with Genie" height="200">
+  <img src="images/dbx_13_genie_about_description.png" alt="Genie-generated description on the About tab" height="280">
+  <img src="images/dbx_14_genie_generate_instructions.png" alt="Generate instructions with Genie" height="280">
 </p>
 
 #### Step 2: Create the Logistics agent
@@ -677,14 +677,14 @@ The Supervisor Agent sends each question to the right sub-agent: your Rides Geni
 2. In the **Create new Agent** dialog, select **Supervisor Agent**.
 
 <p align="center">
-  <img src="images/dbx_16_open_agents.png" alt="Open Agents" height="200">
-  <img src="images/dbx_18_select_supervisor_agent.png" alt="Create new Agent dialog with Supervisor Agent" height="200">
+  <img src="images/dbx_16_open_agents.png" alt="Open Agents" height="280">
+  <img src="images/dbx_18_select_supervisor_agent.png" alt="Create new Agent dialog with Supervisor Agent" height="280">
 </p>
-<p align="center"><img src="images/dbx_17_create_agent.png" alt="Create Agent button" width="520"></p>
+<p align="center"><img src="images/dbx_17_create_agent.png" alt="Create Agent button" height="88"></p>
 
 3. On the **New Supervisor Agent** page, click the pencil icon next to the title and rename the agent `<first initial><surname>-GoAsia-APJC-Agent` (for example, `jdoe-GoAsia-APJC-Agent`). The builder saves changes automatically, and the header shows **Last saved …**.
 
-<p align="center"><img src="images/dbx_20_name_supervisor_agent.png" alt="Supervisor agent renamed" width="420"></p>
+<p align="center"><img src="images/dbx_20_name_supervisor_agent.png" alt="Supervisor agent renamed" height="105"></p>
 
 #### Step 2: Add the sub-agents and remove all other tools
 
@@ -706,8 +706,8 @@ The Supervisor Agent sends each question to the right sub-agent: your Rides Geni
 | 3 | `goasia-operational-docs` | Knowledge Assistant |
 
 <p align="center">
-  <img src="images/dbx_19_add_genie_agents.png" alt="Genie Agents filter in Tools and sub-agents" height="240">
-  <img src="images/dbx_21_add_knowledge_assistant.png" alt="Knowledge Assistants filter with goasia-operational-docs" height="240">
+  <img src="images/dbx_19_add_genie_agents.png" alt="Genie Agents filter in Tools and sub-agents" height="336">
+  <img src="images/dbx_21_add_knowledge_assistant.png" alt="Knowledge Assistants filter with goasia-operational-docs" height="336">
 </p>
 
 #### Step 3: Set the instructions and description
@@ -733,7 +733,7 @@ The Supervisor Agent sends each question to the right sub-agent: your Rides Geni
 
 3. Leave all other settings at their defaults, and wait for **Last saved** to update.
 
-<p align="center"><img src="images/dbx_22_supervisor_tools_instructions.png" alt="Supervisor with three tools and instructions" height="260"></p>
+<p align="center"><img src="images/dbx_22_supervisor_tools_instructions.png" alt="Supervisor with three tools and instructions" height="364"></p>
 
 ---
 
