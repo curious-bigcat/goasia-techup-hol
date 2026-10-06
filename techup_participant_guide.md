@@ -103,7 +103,7 @@ All source data is in the read-only database **`GOASIA`**. Everything you build 
 | Item | Value |
 |---|---|
 | Snowsight URL | https://app.snowflake.com/sfseapac/apjtechup26 |
-| Login | username provided by TechUp session owner|
+| Login | Username and password provided by the TechUp session owner |
 | Role | `SYSADMIN` |
 | Warehouse | `COMPUTE_WH` |
 
@@ -117,7 +117,7 @@ You'll create two objects with your prefix:
 #### Step 1: Log in
 
 1. Open the Snowsight URL above.
-2. Sign in with your Entra ID. If you are prompted to set a new password, do so.
+2. Sign in with the username and password provided by the TechUp session owner. If you are prompted to set a new password, do so.
 
 #### Step 2: Create your private workspace
 
