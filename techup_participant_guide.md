@@ -2,6 +2,15 @@
 
 **Snowflake Cortex Agents vs. Databricks Genie Agents**
 
+## Contents
+
+| Part | Section |
+|---|---|
+| **Introduction** | [1. Meet GoAsia](#1-meet-goasia) · [2. The data model](#2-the-data-model) · [3. What you are comparing](#3-what-you-are-comparing) |
+| **Snowflake** | [4.1 Log in](#41-log-in-and-verify-access) · [4.2 Rides semantic view](#42-create-the-rides-semantic-view) · [4.3 Logistics semantic view](#43-create-the-logistics-semantic-view) · [4.4 Cortex Agent](#44-create-the-goasia-cortex-agent) · [4.5 CoWork](#45-add-the-agent-to-snowflake-cowork) |
+| **Databricks** | [5.1 Log in](#51-log-in-and-verify-access) · [5.2 Source data](#52-reference-source-data-in-unity-catalog) · [5.3 Metric views](#53-create-the-metric-views-with-genie-code) · [5.4 Genie agents](#54-create-the-genie-agents) · [5.5 Supervisor Agent](#55-create-the-supervisor-agent) |
+| **Benchmark** | [6. Compare the results](#6-compare-the-results) |
+
 ---
 
 ## Before you begin
@@ -46,7 +55,6 @@ Next to the tables is a corpus of **38,000 unstructured documents** (`raw_docume
 ### Why you need both kinds of data
 
 The tables tell you **what** happened. The documents tell you **why**. For example, the `fact_sla_breach` table shows that SLA breaches in a city went up last quarter. The incident reports and courier complaints for that city explain the cause. A useful agent has to combine the two.
-
 
 ---
 
@@ -134,9 +142,11 @@ CREATE DATABASE IF NOT EXISTS IDENTIFIER($my_db);
 USE DATABASE IDENTIFIER($my_db);
 ```
 
-> **Note:** Your database name contains hyphens. Whenever you type it directly, wrap it in double quotes and keep it lowercase, for example `"jdoe-techup-db"`.
+> [!NOTE]
+> Your database name contains hyphens. Whenever you type it directly, wrap it in double quotes and keep it lowercase, for example `"jdoe-techup-db"`.
 
-> **Important:** Create everything you build (semantic views and the agent) in **your** database. `GOASIA` holds read-only source data.
+> [!IMPORTANT]
+> Create everything you build (semantic views and the agent) in **your** database. `GOASIA` holds read-only source data.
 
 #### Step 4: Verify access to the shared objects
 
@@ -187,10 +197,10 @@ You'll build `RIDES_SEMANTIC_VIEW` with the **Guided wizard** in your private wo
 
 Select **Guided wizard**. It takes you through tables, columns and context step by step, with no YAML required.
 
-
 #### Step 3: Skip "Provide context"
 
 You don't need SQL queries or Tableau, Power BI or Ossie files. Click **Skip**.
+
 #### Step 4: Select the tables
 
 1. Expand **GOASIA » RIDES** and select all 9 tables: `DIM_DRIVER`, `DIM_RIDER`, `DIM_VEHICLE`, `FACT_DRIVER_EARNING`, `FACT_PROMO_USAGE`, `FACT_RIDER_PAYMENT`, `FACT_SURGE_PRICING`, `FACT_TRIP` and `FACT_TRIP_EVENT`.
@@ -198,7 +208,8 @@ You don't need SQL queries or Tableau, Power BI or Ossie files. Click **Skip**.
 2. Expand **GOASIA » SHARED** and select `DIM_CITY`, `DIM_COUNTRY` and `DIM_ZONE`.
 3. Check that the **Selected** counter shows **12**, then click **Next**.
 
-> **Note: Don't select any `LOGISTICS` tables. They go in a separate semantic view.**
+> [!NOTE]
+> **Don't select any `LOGISTICS` tables. They go in a separate semantic view.**
 
 #### Step 5: Select columns and turn on AI enrichment
 
@@ -207,14 +218,11 @@ You don't need SQL queries or Tableau, Power BI or Ossie files. Click **Skip**.
 3. Select **Add descriptions**. This has AI write a description for every table and column.
 4. Click **Next**.
 
-
 #### Step 6: Name the semantic view and choose its location
 
 1. Set **Name** to `RIDES_SEMANTIC_VIEW`. Leave **Target name** as `RIDES_SEMANTIC_VIEW`.
 
-
 2. Click **Select database and schema**, then select your database (`<first initial><surname>-techup-db`) and the **PUBLIC** schema.
-
 
 3. Click **Publish**.
 
@@ -234,7 +242,8 @@ GoAsia ride-hailing operations across APJC
 
 #### Step 9: Accept all Autopilot suggestions
 
-> **Important: Accept every suggestion Autopilot generates, including metrics, dimensions, facts, filters, relationships and synonyms. Don't dismiss any. Later steps depend on them.**
+> [!IMPORTANT]
+> **Accept every suggestion Autopilot generates, including metrics, dimensions, facts, filters, relationships and synonyms. Don't dismiss any. Later steps depend on them.**
 
 In the **Suggestions** panel, work through each category (Metrics, Dimensions, Facts, Filters and Relationships):
 
@@ -298,7 +307,8 @@ Expand **GOASIA » LOGISTICS** and **GOASIA » SHARED**, then select exactly the
 
 Check that the **Selected** counter shows **11**, then click **Next**.
 
-> **Important: Don't use Select all on LOGISTICS. Select the 9 tables above one by one. Leave `SHARED.DIM_ZONE` unselected, because zones apply only to Rides.**
+> [!IMPORTANT]
+> **Don't use Select all on LOGISTICS. Select the 9 tables above one by one. Leave `SHARED.DIM_ZONE` unselected, because zones apply only to Rides.**
 
 #### Step 4: Select columns and turn on AI enrichment
 
@@ -326,7 +336,8 @@ GoAsia logistics and delivery operations across APJC
 
 #### Step 8: Accept all Autopilot suggestions
 
-> **Important: Accept every suggestion, including metrics, dimensions, facts, filters, relationships and synonyms. Don't dismiss any.**
+> [!IMPORTANT]
+> **Accept every suggestion, including metrics, dimensions, facts, filters, relationships and synonyms. Don't dismiss any.**
 
 Work through the suggestions as in [4.2, Step 9](#step-9-accept-all-autopilot-suggestions): **Review** » **Keep** (or **✓** for relationships) until every category shows **0**. The status bar should show **Errors (0)** and **Valid semantic view**. Skip **Verified queries** for now.
 
@@ -362,7 +373,8 @@ In the left navigation, go to **AI & ML » Agent Studio**.
 3. Set **Agent object name** to `<first initial><surname>_goasia_agent`, using **underscores** (for example, `jdoe_goasia_agent`). The display name fills in automatically.
 4. Click **Create agent**.
 
-> **Note:** The agent's API URL is based on its object name, so don't rename the agent later.
+> [!NOTE]
+> The agent's API URL is based on its object name, so don't rename the agent later.
 
 #### Step 3: Set the description
 
@@ -392,13 +404,11 @@ TOOL ROUTING:
 
 Select **Tools** and switch the **Code Execution tool** toggle **on**. Leave **Artifact repository** empty.
 
-
 #### Step 6: Add the Logistics semantic view tool
 
 1. Under **Query structured data**, click **+ Add semantic view » Add semantic view**.
 
 2. Under **Cortex Analyst**, select the schema `"<first initial><surname>-techup-db".PUBLIC`, then select **LOGISTICS_SEMANTIC_VIEW**.
-
 
 3. Fill in the tool details:
 
@@ -411,7 +421,8 @@ Select **Tools** and switch the **Code Execution tool** toggle **on**. Leave **A
 
 4. Click **Add**.
 
-> **Important:** Use **Generate with Cortex** for the description and set the warehouse to **Custom » `COMPUTE_WH`**. The agent relies on both settings.
+> [!IMPORTANT]
+> Use **Generate with Cortex** for the description and set the warehouse to **Custom » `COMPUTE_WH`**. The agent relies on both settings.
 
 #### Step 7: Add the Rides semantic view tool
 
@@ -426,7 +437,8 @@ Repeat Step 6 with these values, then click **Add**:
 
 #### Step 8: Add the Cortex Search tools
 
-> **Important:** Don't create new search services. Select the existing services in `GOASIA.SEARCH_SERVICES`.
+> [!IMPORTANT]
+> Don't create new search services. Select the existing services in `GOASIA.SEARCH_SERVICES`.
 
 1. Scroll to **Search documents and unstructured data** and click **+ Add search service » Add search service**.
 
@@ -452,7 +464,6 @@ Repeat Step 6 with these values, then click **Add**:
 
    <p align="center"><img src="images/sf_29_publish_agent.png" alt="Publish the agent" width="600"></p>
 
-
 ---
 
 ### 4.5 Add the agent to Snowflake CoWork
@@ -471,6 +482,7 @@ Repeat Step 6 with these values, then click **Add**:
 
    <p align="center"><img src="images/sf_33_cowork_select_agent.png" alt="Select the agent in CoWork" width="760"></p>
 
+> [!IMPORTANT]
 > **Stop here.** Leave the CoWork tab open with your agent selected, but don't ask it anything yet. You'll return to this tab in [Section 6](#6-compare-the-results) to run the benchmark questions.
 
 ---
@@ -497,7 +509,8 @@ The same GoAsia data is loaded into Unity Catalog.
 | Volume (source files) | `/Volumes/apjtechup26/techup-hol/techup-data/` |
 | Your schema | `<first initial><surname>-schema` |
 
-> **Note:** Schema names that contain a hyphen must be wrapped in backticks, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.
+> [!NOTE]
+> Schema names that contain a hyphen must be wrapped in backticks, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.
 
 #### Step 1: Log in
 
@@ -554,7 +567,8 @@ SELECT
 LIST '/Volumes/apjtechup26/techup-hol/techup-data/';
 ```
 
-> **Troubleshooting:** If a later cell fails with *TABLE_OR_VIEW_NOT_FOUND*, run Cell 1 again. Its `USE` statements set the context for the session.
+> [!WARNING]
+> If a later cell fails with *TABLE_OR_VIEW_NOT_FOUND*, run Cell 1 again. Its `USE` statements set the context for the session.
 
 #### Step 5: Create your own schema
 
@@ -572,12 +586,12 @@ SELECT current_user(), current_catalog(), current_schema();
 
 <p align="center"><img src="images/dbx_03_create_own_schema.png" alt="Create your schema" width="760"></p>
 
-> **Note:** Your own schema is now the default. Refer to shared tables by their full name, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.
+> [!NOTE]
+> Your own schema is now the default. Refer to shared tables by their full name, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.
 
 #### Step 6: Check the Knowledge Assistant
 
 In the left sidebar, go to **AI/ML » Agents** and check that the `goasia-operational-docs` Knowledge Assistant is visible.
-
 
 ### 5.2 Reference: source data in Unity Catalog
 
@@ -635,7 +649,8 @@ Genie Code usually adds a validation cell that queries the view with `MEASURE()`
 
 <p align="center"><img src="images/dbx_08_validate_metric_view.png" alt="Validate rides_metric_view" width="600"></p>
 
-> **Tip:** If Genie Code asks for approval before running a cell, approve it. If a cell fails, ask Genie Code to fix the error.
+> [!TIP]
+> If Genie Code asks for approval before running a cell, approve it. If a cell fails, ask Genie Code to fix the error.
 
 #### Step 3: Create `logistics_metric_view`
 
@@ -647,7 +662,6 @@ fact_shipment, dim_shipper, dim_courier, dim_parcel_type, dim_warehouse, dim_cit
 ```
 
 A new **Create logistics_metric_view** cell is added and runs automatically. Check that it completes and that the validation query returns shipment metrics.
-
 
 ---
 
@@ -699,7 +713,6 @@ In the left sidebar, under **SQL**, click **Genie Agents**.
    > **Important:** The workspace is shared. Your prefix keeps your agent distinct from other participants' agents.
 
 5. On the **About** tab, accept the description that Genie generated.
-
 
 6. On the **Instructions** tab, click **Generate with Genie** and enter:
 
@@ -787,11 +800,13 @@ On the **New Supervisor Agent** page, click the pencil icon next to the title an
 
 <p align="center"><img src="images/dbx_19_add_genie_agents.png" alt="Genie Agents filter in Tools and sub-agents" width="340"></p>
 
-> **Important: The list includes every participant's Genie agents, and many names look alike. Select only the two agents with your prefix. If a name is cut off, hover over it to see the full name.**
+> [!IMPORTANT]
+> **The list includes every participant's Genie agents, and many names look alike. Select only the two agents with your prefix. If a name is cut off, hover over it to see the full name.**
 
 #### Step 5: Add the Knowledge Assistant
 
-> **Important: The Supervisor needs the Knowledge Assistant to answer document questions. Don't skip this step.**
+> [!IMPORTANT]
+> **The Supervisor needs the Knowledge Assistant to answer document questions. Don't skip this step.**
 
 In the search box, select the **Knowledge Assistants** filter or type `type:ka`, then select `goasia-operational-docs`. A check mark confirms that it was added.
 
