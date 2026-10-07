@@ -2,7 +2,7 @@
 
 **Snowflake Cortex Agents vs. Databricks Genie Agents**
 
-In this hands-on lab you build the same AI data assistant twice, once on Snowflake and once on Databricks, using the same dataset. Then you ask both assistants the same benchmark questions and compare their answers.
+In this hands-on lab you will build an AI assistant on two platforms, **Snowflake** and **Databricks**, over the same GoAsia dataset, and then benchmark them against each other with the same set of questions.
 
 | Part | What you do | Sections |
 |---|---|---|
@@ -16,6 +16,16 @@ In this hands-on lab you build the same AI data assistant twice, once on Snowfla
 ## 1. Meet GoAsia
 
 GoAsia is a fictional **super-app** operating across **10 APJC markets**. One customer can book a ride in Singapore in the morning and send a parcel in Jakarta in the afternoon. Both businesses run on the same app and share the same markets, cities and zones.
+
+**The business problem.** GoAsia's leadership team asks questions every day that cut across rides, deliveries and customer feedback. For example:
+
+- *"Which cities had the most completed trips last month, and how much revenue did they bring in?"*
+- *"Why are SLA breaches rising in Manila? What are couriers and customers saying?"*
+- *"How many successful operations, rides plus deliveries, did we handle across all markets?"*
+
+Today, an analyst answers each one by writing SQL against several tables, then reading incident reports and complaints by hand. It takes days, and two analysts often get two different numbers.
+
+**Your role.** You are on GoAsia's data team. Your task is to give the business a **self-service AI assistant** that answers these questions in plain language, with correct numbers and evidence from the documents. GoAsia is evaluating two platforms, so you will build the assistant on **both Snowflake and Databricks** and benchmark them before the company decides.
 
 ---
 
@@ -37,8 +47,6 @@ Next to the tables is a corpus of **38,000 unstructured documents** (`raw_docume
 - **Operations and risk:** `incident_reports`, `safety_audits`
 - **Market context:** `news_articles`, `regulatory_filings`, `market_research`
 
-**Why you need both kinds of data.** The tables tell you **what** happened. The documents tell you **why**. For example, the `fact_sla_breach` table shows that SLA breaches in a city went up last quarter. The incident reports and courier complaints for that city explain the cause. A useful agent has to combine the two.
-
 ---
 
 ## 3. What you are comparing
@@ -47,28 +55,33 @@ Next to the tables is a corpus of **38,000 unstructured documents** (`raw_docume
 
 Both platforms use the **same 22 tables and 38,000 documents**, and both answer the **same 23 benchmark questions**. The difference is how each platform is built to reason across them.
 
-**Snowflake (left of the diagram): one agent with several tools.** A single Cortex Agent has five tools: two Cortex Analyst tools (one per domain semantic view) and three Cortex Search services. All five tools are available to the agent at the same time. For a question such as "why did SLA breaches rise in Manila?", it can query the numbers and search the documents, then combine both in one answer.
-
-**Databricks (right of the diagram): three agents in a hierarchy.** A Supervisor Agent receives the question and routes it to one or more sub-agents: the Rides Genie agent, the Logistics Genie agent and the Knowledge Assistant. Each sub-agent sees only its own domain, so answer quality depends on the Supervisor routing the question correctly and combining the results.
-
-| Layer | Snowflake | Databricks |
+| | **Snowflake** (left of the diagram) | **Databricks** (right of the diagram) |
 |---|---|---|
-| Business meaning | Semantic views (Guided wizard + Autopilot) | Metric views (Genie Code) |
-| Structured Q&A | Cortex Analyst | Genie agents (Rides, Logistics) |
-| Documents | Cortex Search (3 services) | Knowledge Assistant |
-| Orchestration | One Cortex Agent with 5 tools | Supervisor Agent routing to 3 sub-agents |
+| **Design** | **One agent** with several tools | **Three agents** in a hierarchy |
+| **Who answers** | A single Cortex Agent | A Supervisor Agent that routes to sub-agents |
+| **What it can use** | 5 tools, all available at the same time:<br>• 2 Cortex Analyst tools (one per domain semantic view)<br>• 3 Cortex Search services | 3 sub-agents, each seeing **only its own domain**:<br>• Rides Genie agent<br>• Logistics Genie agent<br>• Knowledge Assistant |
+| ***"Why did SLA breaches rise in Manila?"*** | Queries the numbers **and** searches the documents, then combines both in one answer | The Supervisor must pick the right sub-agents, then combine their separate results |
+| **Answer quality depends on** | The agent choosing the right tools | The Supervisor routing the question correctly |
 
 ---
 
 ## 4. Snowflake
 
-| Already set up for you (in `GOASIA`, read-only) | You build (in your own database) |
-|---|---|
-| 22 Rides, Logistics and shared tables with sample data | Your private workspace and personal database |
-| `raw_documents`, holding the 38,000 documents | **Rides** semantic view |
-| Three Cortex Search services in `GOASIA.SEARCH_SERVICES`: `RIDES_DOC_SEARCH`, `LOGISTICS_DOC_SEARCH` and `ALL_DOC_SEARCH` | **Logistics** semantic view |
-| Warehouse `COMPUTE_WH` and role `SYSADMIN` | A **Cortex Agent** that uses both semantic views and all three search services |
-| Snowflake CoWork | The agent added to CoWork, ready for the benchmark |
+**Already set up for you** (read-only, in the `GOASIA` database):
+
+- **Data:** 22 Rides, Logistics and shared tables, plus `raw_documents` with the 38,000 documents
+- **Search:** three Cortex Search services in `GOASIA.SEARCH_SERVICES`: `RIDES_DOC_SEARCH`, `LOGISTICS_DOC_SEARCH` and `ALL_DOC_SEARCH`
+- **Access:** warehouse `COMPUTE_WH`, role `SYSADMIN` and Snowflake CoWork
+
+**What you build** (in your own database), in this order:
+
+| # | You build | Section |
+|---:|---|---|
+| 1 | Your private workspace and personal database | [4.1](#41-log-in-and-verify-access) |
+| 2 | **Rides** semantic view | [4.2](#42-create-the-rides-semantic-view) |
+| 3 | **Logistics** semantic view | [4.3](#43-create-the-logistics-semantic-view) |
+| 4 | A **Cortex Agent** that uses both semantic views and all three search services | [4.4](#44-create-the-goasia-cortex-agent) |
+| 5 | The agent added to CoWork, ready for the benchmark | [4.5](#45-add-the-agent-to-snowflake-cowork) |
 
 ### 4.1 Log in and verify access
 
