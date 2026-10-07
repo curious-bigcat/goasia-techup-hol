@@ -118,7 +118,7 @@ USE DATABASE IDENTIFIER($my_db);
 ```
 
 > [!IMPORTANT]
-> Create everything you build (semantic views and the agent) in **your** database. `GOASIA` holds read-only source data. Your database name contains hyphens, so whenever you type it directly, wrap it in double quotes and keep it lowercase, for example `"jdoe-techup-db"`.
+> **Create everything you build (semantic views and the agent) in your database. `GOASIA` holds read-only source data. Your database name contains hyphens, so whenever you type it directly, wrap it in double quotes and keep it lowercase, for example `"jdoe-techup-db"`.**
 
 #### Step 3: Verify access to the shared objects
 
