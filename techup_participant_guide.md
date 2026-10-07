@@ -361,7 +361,7 @@ Next you'll build a single agent that answers questions using both semantic view
 #### Step 4: Add the Cortex Search tools
 
 > [!IMPORTANT]
-> Don't create new search services. Select the existing services in `GOASIA.SEARCH_SERVICES`.
+> **Don't create new search services. Select the existing services in `GOASIA.SEARCH_SERVICES`.**
 
 1. Scroll to **Search documents and unstructured data** and click **+ Add search service » Add search service**.
 2. In **Database**, select **GOASIA**, then the schema **SEARCH_SERVICES**.
