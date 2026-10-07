@@ -51,7 +51,7 @@ Next to the tables is a corpus of **38,000 unstructured documents** (`raw_docume
 
 ## 3. What you are comparing
 
-<p align="center"><img src="images/GoAsia_APJC_AI_Agent_Architecture_Comparison.png" alt="GoAsia APJC AI Agent Architecture Comparison" width="640"></p>
+<p align="center"><img src="images/GoAsia_APJC_AI_Agent_Architecture_Comparison_v2.png" alt="GoAsia APJC AI Agent Architecture Comparison" width="640"></p>
 
 Both platforms use the **same 22 tables and 38,000 documents**, and both answer the **same 23 benchmark questions**. The difference is how each platform is built to reason across them.
 

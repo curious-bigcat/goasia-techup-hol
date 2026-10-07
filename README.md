@@ -34,7 +34,7 @@ GoAsia is a fictional super-app operating across **10 APJC markets**, with two b
 
 ## What you build
 
-<p align="center"><img src="images/GoAsia_APJC_AI_Agent_Architecture_Comparison.png" alt="GoAsia APJC AI Agent Architecture Comparison" width="760"></p>
+<p align="center"><img src="images/GoAsia_APJC_AI_Agent_Architecture_Comparison_v2.png" alt="GoAsia APJC AI Agent Architecture Comparison" width="760"></p>
 
 | Layer | Snowflake | Databricks |
 |---|---|---|
