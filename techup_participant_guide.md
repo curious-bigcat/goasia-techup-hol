@@ -8,7 +8,7 @@ In this hands-on lab you will build an AI assistant on two platforms, **Snowflak
 |---|---|---|
 | **Introduction** | Get to know the GoAsia dataset and the two architectures. | [1. Meet GoAsia](#1-meet-goasia) · [2. Data model](#2-the-data-model) · [3. What you are comparing](#3-what-you-are-comparing) |
 | **Snowflake** | Build two semantic views and a Cortex Agent, then add the agent to Snowflake CoWork. | [4.1 Log in](#41-log-in-and-verify-access) · [4.2 Rides SV](#42-create-the-rides-semantic-view) · [4.3 Logistics SV](#43-create-the-logistics-semantic-view) · [4.4 Agent](#44-create-the-goasia-cortex-agent) · [4.5 CoWork](#45-add-the-agent-to-snowflake-cowork) |
-| **Databricks** | Build two metric views, two Genie agents and a Supervisor Agent. | [5.1 Log in](#51-log-in-and-verify-access) · [5.2 Source data](#52-reference-source-data-in-unity-catalog) · [5.3 Metric views](#53-create-the-metric-views-with-genie-code) · [5.4 Genie agents](#54-create-the-genie-agents) · [5.5 Supervisor](#55-create-the-supervisor-agent) |
+| **Databricks** | Build two metric views, two Genie agents and a Supervisor Agent. | [5.1 Log in](#51-log-in-and-verify-access) · [5.2 Metric views](#52-create-the-metric-views-with-genie-code) · [5.3 Genie agents](#53-create-the-genie-agents) · [5.4 Supervisor](#54-create-the-supervisor-agent) |
 | **Benchmark** | Run 23 benchmark questions on both agents and score the answers. | [6. Compare the results](#6-compare-the-results) |
 
 ---
@@ -435,11 +435,10 @@ The same GoAsia data is loaded into Unity Catalog.
 | Workspace URL | `<DATABRICKS_WORKSPACE_URL>` |
 | Login | Your Entra ID |
 | Catalog / Shared schema | `apjtechup26` / `techup-hol` |
-| Volume (source files) | `/Volumes/apjtechup26/techup-hol/techup-data/` |
 | Your schema | `<first initial><surname>-schema` |
 
 > [!NOTE]
-> Schema names that contain a hyphen must be wrapped in backticks, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.
+> **Schema names that contain a hyphen must be wrapped in backticks, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.**
 
 #### Step 1: Log in and create your notebook
 
@@ -483,21 +482,11 @@ SELECT
   (SELECT COUNT(*) FROM fact_shipment)  AS shipments;
 ```
 
-**Cell 4:** check access to the volume. Expect a list of source files.
-
-```sql
-%sql
-LIST '/Volumes/apjtechup26/techup-hol/techup-data/';
-```
-
-> [!WARNING]
-> If a later cell fails with *TABLE_OR_VIEW_NOT_FOUND*, run Cell 1 again. Its `USE` statements set the context for the session.
-
 #### Step 3: Create your own schema
 
 You'll build your metric views in your own schema inside `apjtechup26`.
 
-**Cell 5:** create the schema and set it as your context. Replace `<first initial><surname>` with your prefix. The last column of the result should show your schema name.
+**Cell 4:** create the schema and set it as your context. Replace `<first initial><surname>` with your prefix. The last column of the result should show your schema name.
 
 ```sql
 %sql
@@ -510,37 +499,18 @@ SELECT current_user(), current_catalog(), current_schema();
 <p align="center"><img src="images/dbx_03_create_own_schema.png" alt="Create your schema" height="280"></p>
 
 > [!NOTE]
-> Your own schema is now the default. Refer to shared tables by their full name, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.
-
-#### Step 4: Check the Knowledge Assistant
-
-In the left sidebar, go to **AI/ML » Agents** and check that the `goasia-operational-docs` Knowledge Assistant is visible.
-
-### 5.2 Reference: source data in Unity Catalog
-
-This section describes the data you'll work with. There are no steps here.
-
-**Tables.** All 22 GoAsia tables are in a **single schema**, `apjtechup26`.`techup-hol`, with the same names in lowercase (`dim_country`, `fact_trip`, `fact_shipment` and so on). The row counts match Snowflake.
-
-**Knowledge Assistant.** `goasia-operational-docs` is already built over the same eight document types:
-
-| Field | Value |
-|---|---|
-| Name | `goasia-operational-docs` |
-| Rides documents | Incident reports (INC-), rider complaints (CMP-), safety audits (SA-), support chats (CS-), driver surveys (SRV-) |
-| Logistics documents | Regulatory filings (REG-), news (NEWS-), market research (RESEARCH-) |
-| Behaviour | Answers document questions with specific references (IDs, dates, cities). Quantitative questions go to the structured tables. |
+> **Your own schema is now the default. Refer to shared tables by their full name, for example `` `apjtechup26`.`techup-hol`.fact_trip ``.**
 
 ---
 
-### 5.3 Create the metric views with Genie Code
+### 5.2 Create the metric views with Genie Code
 
-Genie Code is the Databricks AI assistant. You'll ask it to build both metric views in your schema. It writes the `CREATE VIEW ... WITH METRICS` code into a new notebook cell and runs the cell for you.
+You'll use **Genie Code**, the Databricks AI assistant built into your notebook, to create both metric views without writing any code yourself.
 
 #### Step 1: Create `rides_metric_view`
 
 1. In your notebook, click the **Genie Code** icon at the top right, next to the catalog name. The Genie Code panel opens on the right.
-2. Paste this prompt into the chat box, replace `<first initial><surname>-schema` with your schema name, and press **Enter**:
+2. In the Genie Code panel, paste this request, replace `<first initial><surname>-schema` with your schema name, and press **Enter**:
 
    ```text
    Create a metric view in <first initial><surname>-schema called rides_metric_view using these tables from apjtechup26.techup-hol
@@ -566,11 +536,11 @@ Genie Code is the Databricks AI assistant. You'll ask it to build both metric vi
 </p>
 
 > [!TIP]
-> If Genie Code asks for approval before running a cell, approve it. If a cell fails, ask Genie Code to fix the error.
+> **If Genie Code asks for approval before running a cell, approve it. If a cell fails, ask Genie Code to fix the error.**
 
 #### Step 2: Create `logistics_metric_view`
 
-In the same chat, send this prompt with your schema name:
+In the same Genie Code panel, paste this request, replace `<first initial><surname>-schema` with your schema name, and press **Enter**:
 
 ```text
 Create a metric view in <first initial><surname>-schema called logistics_metric_view using these tables from apjtechup26.techup-hol
@@ -581,7 +551,7 @@ A new **Create logistics_metric_view** cell is added and runs automatically. Che
 
 ---
 
-### 5.4 Create the Genie agents
+### 5.3 Create the Genie agents
 
 You'll create two Genie agents, one for Rides and one for Logistics. Each uses tables from the shared `techup-hol` schema plus the metric view in your own schema.
 
@@ -658,7 +628,7 @@ If the instructions are very long, ask Genie for a condensed version, as you did
 
 ---
 
-### 5.5 Create the Supervisor Agent
+### 5.4 Create the Supervisor Agent
 
 The Supervisor Agent sends each question to the right sub-agent: your Rides Genie agent, your Logistics Genie agent, or the `goasia-operational-docs` Knowledge Assistant.
 
