@@ -77,7 +77,7 @@ Both platforms use the **same 22 tables and 38,000 documents**, and both answer 
 
 | # | You build | Section |
 |---:|---|---|
-| 1 | Your private workspace and personal database | [4.1](#41-log-in-and-verify-access) |
+| 1 | Your private workspace and lab database | [4.1](#41-log-in-and-verify-access) |
 | 2 | **Rides** semantic view | [4.2](#42-create-the-rides-semantic-view) |
 | 3 | **Logistics** semantic view | [4.3](#43-create-the-logistics-semantic-view) |
 | 4 | A **Cortex Agent** that uses both semantic views and all three search services | [4.4](#44-create-the-goasia-cortex-agent) |
@@ -91,7 +91,7 @@ Both platforms use the **same 22 tables and 38,000 documents**, and both answer 
 | Login | Username and password provided by the TechUp session owner |
 | Role / Warehouse | `SYSADMIN` / `COMPUTE_WH` |
 | Your private workspace | `<first initial><surname>-techuphol` (e.g. `jdoe-techuphol`) |
-| Your personal database | `<first initial><surname>-techup-db` (e.g. `jdoe-techup-db`) |
+| Your lab database | `<first initial><surname>-techup-db` (e.g. `jdoe-techup-db`) |
 
 #### Step 1: Log in and create your private workspace
 
@@ -102,7 +102,7 @@ Both platforms use the **same 22 tables and 38,000 documents**, and both answer 
 
 <p align="center"><img src="images/sf_01_create_private_workspace.png" alt="Create a private workspace" height="224"></p>
 
-#### Step 2: Create your personal database
+#### Step 2: Create your lab database
 
 Paste the script below into `setup.sql`. **Edit only the first line:** replace `<first initial><surname>` with your prefix. Then run the script.
 
@@ -201,13 +201,13 @@ You'll build `RIDES_SEMANTIC_VIEW` with the **Guided wizard** in your private wo
   <img src="images/sf_10_select_database_schema.png" alt="Select database and schema" height="171">
 </p>
 
-#### Step 4: Wait for generation, then add a description
+#### Step 4: Wait for Autopilot to build the semantic view, then add a description
 
 Autopilot now builds the semantic view: logical tables, descriptions, sample values and relationships. This usually takes **1–2 minutes**, although the screen says up to 10. **Don't close the window.** Suggestions appear in the **Suggestions** panel on the right as they become available.
 
 <p align="center"><img src="images/sf_11_generating_semantic_view.png" alt="Generating semantic view" height="168"></p>
 
-When generation finishes, set the semantic view's description at the top of the **Visual** editor to:
+When Autopilot finishes building the semantic view, set its description at the top of the **Visual** editor to:
 
 ```text
 GoAsia ride-hailing operations across APJC
@@ -233,7 +233,7 @@ For example: **Metrics** `dim_city · distinct_country_count` » **Review** » *
 
 Before you publish, check that the status bar at the bottom shows **Errors (0)** and **Valid semantic view**. Skip **Verified queries** for now.
 
-#### Step 6: Publish your changes and verify
+#### Step 6: Publish your changes
 
 1. Click **Publish changes** (top right). Check that `RIDES_SEMANTIC_VIEW` is selected (it shows *Out of sync*), then click **Publish**.
 2. In **Review publish changes**, confirm that the target is `"<first initial><surname>-techup-db".PUBLIC` and review the changes. Click **Publish**. The *Overwrite warning* is expected: it replaces the version created in Step 3 with your enriched version.
@@ -242,15 +242,6 @@ Before you publish, check that the status bar at the bottom shows **Errors (0)**
   <img src="images/sf_14_publish_changes.png" alt="Publish changes" height="266">
   <img src="images/sf_15_review_publish_changes.png" alt="Review publish changes" height="266">
 </p>
-
-3. Run the following in `setup.sql`. `RIDES_SEMANTIC_VIEW` should be listed.
-
-   ```sql
-   USE DATABASE IDENTIFIER($my_db);
-   SHOW SEMANTIC VIEWS IN SCHEMA PUBLIC;
-   ```
-
-4. To test it, open the **Playground** tab and ask: *"How many trips were completed per country last month?"*
 
 ---
 
@@ -276,7 +267,7 @@ Repeat the wizard to build `LOGISTICS_SEMANTIC_VIEW`. It covers 11 tables: 9 `GO
 2. Select **Add sample values** and **Add descriptions**, then click **Next**.
 3. Set **Name** and **Target name** to `LOGISTICS_SEMANTIC_VIEW`.
 4. Click **Select database and schema**, then select your database (`<first initial><surname>-techup-db`) and the **PUBLIC** schema.
-5. Click **Publish**, and wait about **1–2 minutes** for generation. Don't close the window.
+5. Click **Publish**, and wait about **1–2 minutes** while Autopilot builds the semantic view. Don't close the window.
 
 #### Step 3: Add a description and accept all suggestions
 
@@ -290,19 +281,6 @@ GoAsia logistics and delivery operations across APJC
 > **Accept every suggestion, including metrics, dimensions, facts, filters, relationships and synonyms. Don't dismiss any.**
 
 Work through the suggestions as in [4.2, Step 5](#step-5-accept-all-autopilot-suggestions): **Review** » **Keep** (or **✓** for relationships) until every category shows **0**. The status bar should show **Errors (0)** and **Valid semantic view**. Skip **Verified queries** for now.
-
-#### Step 4: Publish your changes and verify
-
-1. Click **Publish changes**. Check that `LOGISTICS_SEMANTIC_VIEW` is selected, then click **Publish**.
-2. In **Review publish changes**, confirm that the target is `"<first initial><surname>-techup-db".PUBLIC`, then click **Publish**.
-3. Run the query below. Both `RIDES_SEMANTIC_VIEW` and `LOGISTICS_SEMANTIC_VIEW` should now be listed.
-
-   ```sql
-   USE DATABASE IDENTIFIER($my_db);
-   SHOW SEMANTIC VIEWS IN SCHEMA PUBLIC;
-   ```
-
-4. To test the new view, open **Playground** and ask: *"Which shippers had the most SLA breaches last quarter?"*
 
 ---
 
@@ -378,7 +356,7 @@ Next you'll build a single agent that answers questions using both semantic view
 </p>
 
 > [!IMPORTANT]
-> Use **Generate with Cortex** for the description and set the warehouse to **Custom » `COMPUTE_WH`**. The agent relies on both settings.
+> **Use Generate with Cortex for the description and set the warehouse to Custom » `COMPUTE_WH`. The agent relies on both settings.**
 
 #### Step 4: Add the Cortex Search tools
 
