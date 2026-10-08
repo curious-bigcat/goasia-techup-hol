@@ -247,19 +247,19 @@ Before you publish, check that the status bar at the bottom shows **Errors (0)**
 
 ### 4.3 Create the Logistics semantic view
 
-Repeat the wizard to build `LOGISTICS_SEMANTIC_VIEW`. It covers 11 tables: 9 `GOASIA.LOGISTICS` tables and 2 `GOASIA.SHARED` tables. The screens are the same as in [4.2](#42-create-the-rides-semantic-view).
+Repeat the wizard to build `LOGISTICS_SEMANTIC_VIEW`. It covers 12 tables: all 10 `GOASIA.LOGISTICS` tables and 2 `GOASIA.SHARED` tables. The screens are the same as in [4.2](#42-create-the-rides-semantic-view).
 
 #### Step 1: Start the wizard and select the tables
 
 1. In your workspace, click **+ Add new » Semantic view** and name the file `LOGISTICS_SEMANTIC_VIEW.sv.yaml`.
 2. Select **Guided wizard**, then click **Skip**.
-3. Expand **GOASIA » LOGISTICS** and **GOASIA » SHARED**, then select exactly these 11 tables:
-   - **GOASIA.LOGISTICS (9):** `FACT_SHIPMENT`, `DIM_SHIPPER`, `DIM_COURIER`, `DIM_WAREHOUSE`, `DIM_PARCEL_TYPE`, `FACT_SLA_BREACH`, `FACT_COURIER_EARNING`, `FACT_SHIPPER_INVOICE`, `FACT_ROUTE_LEG`
+3. Expand **GOASIA » LOGISTICS** and **GOASIA » SHARED**, then select exactly these 12 tables:
+   - **GOASIA.LOGISTICS (10):** `FACT_SHIPMENT`, `DIM_SHIPPER`, `DIM_COURIER`, `DIM_WAREHOUSE`, `DIM_PARCEL_TYPE`, `FACT_SLA_BREACH`, `FACT_COURIER_EARNING`, `FACT_SHIPPER_INVOICE`, `FACT_ROUTE_LEG`, `FACT_PARCEL_EVENT`
    - **GOASIA.SHARED (2):** `DIM_CITY`, `DIM_COUNTRY`
-4. Check that the **Selected** counter shows **11**, then click **Next**.
+4. Check that the **Selected** counter shows **12**, then click **Next**.
 
 > [!IMPORTANT]
-> **Don't use Select all on LOGISTICS. Select the 9 tables above one by one. Leave `SHARED.DIM_ZONE` unselected, because zones apply only to Rides.**
+> **Select the 12 tables above. Leave `SHARED.DIM_ZONE` unselected, because zones apply only to Rides.**
 
 #### Step 2: Select columns, name and place the view
 
@@ -281,6 +281,11 @@ GoAsia logistics and delivery operations across APJC
 > **Accept every suggestion, including metrics, dimensions, facts, filters, relationships and synonyms. Don't dismiss any.**
 
 Work through the suggestions as in [4.2, Step 5](#step-5-accept-all-autopilot-suggestions): **Review** » **Keep** (or **✓** for relationships) until every category shows **0**. The status bar should show **Errors (0)** and **Valid semantic view**. Skip **Verified queries** for now.
+
+#### Step 4: Publish your changes
+
+1. Click **Publish changes** (top right). Check that `LOGISTICS_SEMANTIC_VIEW` is selected (it shows *Out of sync*), then click **Publish**.
+2. In **Review publish changes**, confirm that the target is `"<first initial><surname>-techup-db".PUBLIC` and review the changes. Click **Publish**. The *Overwrite warning* is expected, as in [4.2, Step 6](#step-6-publish-your-changes).
 
 ---
 
@@ -315,10 +320,10 @@ Next you'll build a single agent that answers questions using both semantic view
 2. Select **Instructions**. Leave **Model** set to `auto`, and paste the following into **Orchestration instructions**:
 
    ```text
-   You are GoAsia's data assistant covering ride-hailing and logistics operations across 8 APJC markets (Singapore, Malaysia, Thailand, Philippines, Vietnam, Indonesia, India, Japan, Australia, South Korea).
+   You are GoAsia's data assistant covering ride-hailing and logistics operations across 10 APJC markets (Singapore, Malaysia, Thailand, Philippines, Vietnam, Indonesia, India, Japan, Australia, South Korea).
 
    TOOL ROUTING:
-   - Structured data questions (counts, revenue, metrics, rankings) → use RIDES_analyst or logistics_analyst
+   - Structured data questions (counts, revenue, metrics, rankings) → use rides_analyst or logistics_analyst
    - Ride document questions (incidents, complaints, audits, support chats, driver surveys) → use RIDES_DOC_SEARCH
    - Logistics document questions (regulatory filings, news articles, market research) → use LOGISTICS_DOC_SEARCH
    - Cross-domain or ambiguous document questions → use ALL_DOC_SEARCH
@@ -344,7 +349,7 @@ Next you'll build a single agent that answers questions using both semantic view
 | Field | Logistics tool | Rides tool |
 |---|---|---|
 | **Semantic view** | **LOGISTICS_SEMANTIC_VIEW** | **RIDES_SEMANTIC_VIEW** |
-| **Name** | `logistics_analyst` | `RIDES_analyst` |
+| **Name** | `logistics_analyst` | `rides_analyst` |
 | **Description** | Click **Generate with Cortex** and wait for the text to fill in. Don't type it yourself. | **Generate with Cortex** |
 | **Warehouse** | Select **Custom**, then `COMPUTE_WH` | **Custom** » `COMPUTE_WH` |
 | **Query timeout** | Leave blank | Leave blank |
@@ -372,7 +377,7 @@ Next you'll build a single agent that answers questions using both semantic view
 
 | Search service | Name | Description |
 |---|---|---|
-| `GOASIA.SEARCH_SERVICES.RIDES_DOC_SEARCH` | `RIDES_DOC_SEARCH` | `Search ride-hailing documents including incident reports, rider complaints, safety audits, support chat transcripts, and driver surveys across 8 APJC markets` |
+| `GOASIA.SEARCH_SERVICES.RIDES_DOC_SEARCH` | `RIDES_DOC_SEARCH` | `Search ride-hailing documents including incident reports, rider complaints, safety audits, support chat transcripts, and driver surveys across 10 APJC markets` |
 | `GOASIA.SEARCH_SERVICES.LOGISTICS_DOC_SEARCH` | `LOGISTICS_DOC_SEARCH` | `Search logistics documents including regulatory filings, news articles, and market research reports covering delivery operations and supply chain across APJC` |
 | `GOASIA.SEARCH_SERVICES.ALL_DOC_SEARCH` | `ALL_DOC_SEARCH` | `Search across all GoAsia operational documents spanning both rides and logistics domains — use when the question covers both domains or when the domain is unclear` |
 
@@ -615,7 +620,7 @@ Go back to **Genie Agents**, click **+ New**, and repeat Step 1 with the 13 Logi
 | Setting | Value |
 |---|---|
 | Name | `<first initial><surname> - GoAsia Logistics Agent` |
-| Description | `GoAsia logistics and delivery operations across 8 APJC countries` |
+| Description | `GoAsia logistics and delivery operations across 10 APJC countries` |
 | Warehouse | Your SQL warehouse |
 
 Then go to **Configure » Instructions**, click **Generate with Genie** and enter:
@@ -676,12 +681,12 @@ The Supervisor Agent sends each question to the right sub-agent: your Rides Geni
 1. Expand **Instructions** and paste the text below. Replace `<first initial><surname>` with your prefix, so the agent names match your Genie agents exactly.
 
    ```text
-   You are GoAsia's data assistant covering ride-hailing and logistics operations across 8 APJC markets (Singapore, Malaysia, Thailand, Philippines, Vietnam, Indonesia, India, Japan).
+   You are GoAsia's data assistant covering ride-hailing and logistics operations across 10 APJC markets (Singapore, Malaysia, Thailand, Philippines, Vietnam, Indonesia, India, Japan, Australia, South Korea).
 
    TOOL ROUTING:
    - Rides questions (trips, fares, drivers, riders, surge pricing, payments, promos) → use <first initial><surname> - GoAsia Rides Agent
    - Logistics questions (shipments, shippers, couriers, warehouses, SLA, invoices, routes) → use <first initial><surname> - GoAsia Logistics Agent
-   - Document questions (incidents, complaints, audits, surveys, regulations, news) → use goasia-knowledge-base
+   - Document questions (incidents, complaints, audits, surveys, regulations, news) → use goasia-operational-docs
    - Cross-domain questions → call both Rides and Logistics agents and combine results
    - When unsure which domain, ask the user to clarify rides or logistics
    ```
@@ -689,7 +694,7 @@ The Supervisor Agent sends each question to the right sub-agent: your Rides Geni
 2. Expand **Description** (below **Instructions**) and paste:
 
    ```text
-   GoAsia super-app agent covering ride-hailing and logistics operations across 8 APJC markets. Routes structured data questions to domain-specific Genie Agents and document questions to Knowledge Assistant.
+   GoAsia super-app agent covering ride-hailing and logistics operations across 10 APJC markets. Routes structured data questions to domain-specific Genie Agents and document questions to Knowledge Assistant.
    ```
 
 3. Leave all other settings at their defaults, and wait for **Last saved** to update.
@@ -700,4 +705,9 @@ The Supervisor Agent sends each question to the right sub-agent: your Rides Geni
 
 ## 6. Compare the results
 
-Ask your Snowflake agent and your Databricks agent the same benchmark questions, then compare how accurate each answer is. The questions and expected answers come from `benchmark_test_questions.md`.
+Ask your Snowflake agent and your Databricks agent the same benchmark questions, then compare how accurate each answer is:
+
+- **Snowflake:** in the **Snowflake CoWork** tab you left open in [4.5](#45-add-the-agent-to-snowflake-cowork), with `<first initial><surname>_goasia_agent` selected.
+- **Databricks:** in **AI/ML » Agents**, open `<first initial><surname>-GoAsia-APJC-Agent` and use its chat panel.
+
+The questions and expected answers come from `benchmark_test_questions.md`.
