@@ -708,6 +708,8 @@ The Supervisor Agent sends each question to the right sub-agent: your Rides Geni
 Ask your Snowflake agent and your Databricks agent the same benchmark questions, then compare how accurate each answer is:
 
 - **Snowflake:** in the **Snowflake CoWork** tab you left open in [4.5](#45-add-the-agent-to-snowflake-cowork), with `<first initial><surname>_goasia_agent` selected.
-- **Databricks:** in **AI/ML » Agents**, open `<first initial><surname>-GoAsia-APJC-Agent` and use its chat panel.
+- **Databricks:** in **AI/ML » Agents**, open `<first initial><surname>-GoAsia-APJC-Agent`. Type each question in the **What would you like to test?** box on the right of the Supervisor builder.
+
+<p align="center"><img src="images/dbx_23_supervisor_agent_chat.png" alt="Supervisor Agent test chat" height="300"></p>
 
 The questions and expected answers come from `benchmark_test_questions.md`.
