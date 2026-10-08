@@ -712,4 +712,4 @@ Ask your Snowflake agent and your Databricks agent the same benchmark questions,
 
 <p align="center"><img src="images/dbx_23_supervisor_agent_chat.png" alt="Supervisor Agent test chat" height="300"></p>
 
-The questions and expected answers come from `benchmark_test_questions.md`.
+The questions and expected answers come from [`benchmark_test_questions.md`](benchmark_test_questions.md).
